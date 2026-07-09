@@ -91,4 +91,4 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 // بدلاً من config.token
-client.login(process.env.DISCORD_TOKEN);
+client.login(process.env.TOKEN);
