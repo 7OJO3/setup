@@ -68,7 +68,7 @@ client.on('messageCreate', async (message) => {
         const embed = new MessageEmbed()
             .setTitle('اختار رتبتك')
             .setDescription('استخدم القوائم أدناه لتحديد رتبك.')
-            .setImage('https://cdn.discordapp.com/attachments/1501300022808023351/1524926219483873290/IMG_8800.jpg?ex=6a5185b6&is=6a503436&hm=d72fd3a947f539bfc77d746c149c4f0c0c22aebfe24d8ee864a96ee3538d704b&'); // ضعي رابط صورتك هنا
+            .setImage('https://cdn.discordapp.com/attachments/1501300022808023351/1526270984263307325/IMG_9229.jpg?ex=6a566a1f&is=6a55189f&hm=e75b698e5b9c01da1b351707663c3f55fd26b8ea627494e55f07cbcc51e03613&'); // ضعي رابط صورتك هنا
 
         await message.channel.send({ embeds: [embed], components: [row1, row2, row3] });
     }
