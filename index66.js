@@ -68,7 +68,7 @@ client.on('messageCreate', async (message) => {
         const embed = new MessageEmbed()
             .setTitle('اختار رتبتك')
             .setDescription('استخدم القوائم أدناه لتحديد رتبك.')
-            .setImage('https://cdn.discordapp.com/attachments/1501300022808023351/1526270984263307325/IMG_9229.jpg?ex=6a566a1f&is=6a55189f&hm=e75b698e5b9c01da1b351707663c3f55fd26b8ea627494e55f07cbcc51e03613&'); // ضعي رابط صورتك هنا
+            .setImage('https://cdn.discordapp.com/attachments/1501300022808023351/1526270984263307325/IMG_9229.jpg?ex=6a566a1f&is=6a55189f&hm=e75b698e5b9c01da1b351707663c3f55fd26b8ea627494e55f07cbcc51e03613&');
 
         await message.channel.send({ embeds: [embed], components: [row1, row2, row3] });
     }
@@ -81,14 +81,21 @@ client.on('interactionCreate', async (interaction) => {
     const roleId = interaction.values[0];
     const member = interaction.member;
 
-    if (member.roles.cache.has(roleId)) {
-        await member.roles.remove(roleId);
-        await interaction.reply({ content: `تمت إزالة الرتبة بنجاح.`, ephemeral: true });
-    } else {
-        await member.roles.add(roleId);
-        await interaction.reply({ content: `تم إعطاؤك الرتبة بنجاح!`, ephemeral: true });
+    // نقوم بعمل Defer للرد فوراً لتجنب خطأ انتهاء الوقت أو تكرار الرد
+    await interaction.deferReply({ ephemeral: true });
+
+    try {
+        if (member.roles.cache.has(roleId)) {
+            await member.roles.remove(roleId);
+            await interaction.editReply({ content: `تمت إزالة الرتبة بنجاح.` });
+        } else {
+            await member.roles.add(roleId);
+            await interaction.editReply({ content: `تم إعطاؤك الرتبة بنجاح!` });
+        }
+    } catch (error) {
+        console.error(error);
+        await interaction.editReply({ content: 'حدث خطأ أثناء تعديل الرتبة. تأكد من صلاحيات البوت.' });
     }
 });
 
-// بدلاً من config.token
 client.login(process.env.TOKEN);
